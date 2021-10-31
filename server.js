@@ -146,9 +146,9 @@ app.post("/login", (req, res) => {
 });
 
 
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-// });
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
 
 // if (process.env.NODE_ENV === "production") {
 //   app.use(express.static("client/build"));
@@ -157,13 +157,13 @@ app.post("/login", (req, res) => {
 //   });
 // }
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('client/build')); // serve the static react app
-  app.get(/^\/(?!api).*/, (req, res) => { // don't serve api routes to react app
-    res.sendFile(path.join(__dirname, './client/build/index.html'));
-  });
-  console.log('Serving React App...');
-};
+// if (process.env.NODE_ENV === 'production') {
+//   app.use(express.static('client/build')); // serve the static react app
+//   app.get(/^\/(?!api).*/, (req, res) => { // don't serve api routes to react app
+//     res.sendFile(path.join(__dirname, './client/build/index.html'));
+//   });
+//   console.log('Serving React App...');
+// };
 
 
 app.listen(PORT, () => {
