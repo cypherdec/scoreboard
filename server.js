@@ -2,7 +2,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
+require("dotenv").config();
 const PORT = process.env.PORT || 3001;
+const path = require("path")
+
 
 app = express();
 app.use(cors());
@@ -12,7 +15,9 @@ app.use(express.json());
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost:27017/scoreboardDB");
+app.use(express.static(path.join(__dirname, "client", "build")))
+
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
 
 const scoreSchema = mongoose.Schema({
   team: String,
@@ -138,6 +143,11 @@ app.post("/login", (req, res) => {
     }
   });
 
+});
+
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
 });
 
 app.listen(PORT, () => {
