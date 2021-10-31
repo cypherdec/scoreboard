@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 require("dotenv").config();
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 4000;
 const path = require("path")
 
 
@@ -146,9 +146,9 @@ app.post("/login", (req, res) => {
 });
 
 
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-// });
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
 
 // if (process.env.NODE_ENV === "production") {
 //   app.use(express.static("client/build"));
@@ -169,12 +169,12 @@ app.post("/login", (req, res) => {
 //     "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
 
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('client/build'));
-}
-app.get('*', (request, response) => {
-    response.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-});
+// if (process.env.NODE_ENV === 'production') {
+//   app.use(express.static('client/build'));
+// }
+// app.get('*', (request, response) => {
+//     response.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+// });
 
 
 
