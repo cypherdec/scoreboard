@@ -146,9 +146,9 @@ app.post("/login", (req, res) => {
 });
 
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-});
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+// });
 
 // if (process.env.NODE_ENV === "production") {
 //   app.use(express.static("client/build"));
@@ -164,6 +164,18 @@ app.get("*", (req, res) => {
 //   });
 //   console.log('Serving React App...');
 // };
+
+// "start": "node server.js",
+//     "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client', 'build')));
+
+  app.get('*', (req, res) => {
+      res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
+
 
 
 app.listen(PORT, () => {
