@@ -4,7 +4,7 @@ const cors = require("cors");
 
 require("dotenv").config();
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 3001;
 
 const path = require("path")
 
@@ -18,7 +18,7 @@ app.set("view engine", "ejs");
 
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
 
-app.use(express.static(path.resolve(__dirname, "./client/build")));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 
 
@@ -149,13 +149,9 @@ app.post("/login", (req, res) => {
 });
 
 
-if(process.env.NODE.ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'client', 'build')));
-
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
-  });
-}
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+});
 
 app.listen(PORT, () => {
   console.log("Server listening on " + PORT);
