@@ -14,14 +14,15 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(express.static(path.join(__dirname, "client", "build")));
-
 app.set("view engine", "ejs");
 
-
-app.use(express.static( "public"));
-
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
+
+app.use(express.static(path.resolve(__dirname, "./client/build")));
+
+app.get("*", function (request, response) {
+  response.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+});
 
 const scoreSchema = mongoose.Schema({
   team: String,
@@ -151,37 +152,6 @@ app.post("/login", (req, res) => {
 
 
 
-
-// if (process.env.NODE_ENV === "production") {
-//   app.use(express.static("client/build"));
-//   app.get("*", (req, res) => {
-//      res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-//   });
-// }
-
-// if (process.env.NODE_ENV === 'production') {
-//   app.use(express.static('client/build')); // serve the static react app
-//   app.get(/^\/(?!api).*/, (req, res) => { // don't serve api routes to react app
-//     res.sendFile(path.join(__dirname, './client/build/index.html'));
-//   });
-//   console.log('Serving React App...');
-// };
-
-// "start": "node server.js",
-//     "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
-
-
-// if (process.env.NODE_ENV === 'production') {
-//   app.use(express.static('client/build'));
-// }
-// app.get('*', (request, response) => {
-//     response.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-// });
-
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-});
 
 app.listen(PORT, () => {
   console.log("Server listening on " + PORT);
