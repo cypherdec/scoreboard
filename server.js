@@ -3,7 +3,9 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 require("dotenv").config();
+
 const PORT = process.env.PORT || 4000;
+
 const path = require("path")
 
 
@@ -12,9 +14,12 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+app.use(express.static(path.join(__dirname, "client", "build")));
+
 app.set("view engine", "ejs");
+
+
 app.use(express.static( "public"));
-app.use('*', express.static(path.join(__dirname, "client", "build")));
 
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
 
@@ -145,9 +150,7 @@ app.post("/login", (req, res) => {
 });
 
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-});
+
 
 // if (process.env.NODE_ENV === "production") {
 //   app.use(express.static("client/build"));
@@ -176,7 +179,9 @@ app.get("*", (req, res) => {
 // });
 
 
-
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
 
 app.listen(PORT, () => {
   console.log("Server listening on " + PORT);
