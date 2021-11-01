@@ -20,9 +20,7 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
 
 app.use(express.static(path.resolve(__dirname, "./client/build")));
 
-app.get("*", function (request, response) {
-  response.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
-});
+
 
 const scoreSchema = mongoose.Schema({
   team: String,
@@ -151,7 +149,13 @@ app.post("/login", (req, res) => {
 });
 
 
+if(process.env.NODE.ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client', 'build')));
 
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
+  });
+}
 
 app.listen(PORT, () => {
   console.log("Server listening on " + PORT);
